@@ -13,7 +13,7 @@ const Login=({handleChange})=>{
     
 
     const signinauth = () => {
-        auth.signInWithEmailAndPassword(email,password).then(result=>{console.log(result)},error=>(console.log(error)))
+        auth.signInWithEmailAndPassword(email,password).then(result=>{alert("LoggedIn")},error=>(alert(error)))
             
         
 
@@ -57,7 +57,7 @@ const Login=({handleChange})=>{
                     }
                     label="Remember me"
                  />
-                <Button onClick={signinauth}  type='button' color='primary' variant="contained" style={btnstyle} fullWidth>Sign in</Button>
+                <Button onClick={signinauth} disabled={!email + !password} type='button' color='primary' variant="contained" style={btnstyle} fullWidth>Sign in</Button>
                 <Typography >
                     
                 </Typography>
