@@ -11,7 +11,7 @@ function Signup()  {
     const [password, setPassword] = useState("");
 
     const pushauth = () => {
-        auth.createUserWithEmailAndPassword(email,password).then(console.log("success"));
+        auth.createUserWithEmailAndPassword(email,password).then(result=>{console.log(result)},error=>(alert(error)));
     }
    
 
@@ -50,6 +50,7 @@ function Signup()  {
                          value={password}
                          onChange={(e)=>setPassword(e.target.value)}
                          />
+                         <TextField fullWidth label="Name" placeholder="Enter your name" required />
                     
                     <br/>
                     <Button type="button" variant="contained" color="primary" 
