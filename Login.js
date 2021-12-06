@@ -10,9 +10,12 @@ import { auth } from '../firebase';
 const Login=({handleChange})=>{
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    
 
     const signinauth = () => {
-        auth.signInWithEmailAndPassword(email,password).then(console.log("loggedin"))
+        auth.signInWithEmailAndPassword(email,password).then(result=>{console.log(result)},error=>(console.log(error)))
+            
+        
 
     }
     
