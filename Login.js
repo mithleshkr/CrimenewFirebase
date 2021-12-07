@@ -3,17 +3,19 @@ import { Grid,Paper, Avatar, TextField, Button, Typography,Link } from '@materia
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-//import {useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import { auth } from '../firebase';
-//import { Email } from '@material-ui/icons';
+
 
 const Login=({handleChange})=>{
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    
+
+    const navigate = useNavigate();
+
 
     const signinauth = () => {
-        auth.signInWithEmailAndPassword(email,password).then(result=>{alert("LoggedIn")},error=>(alert(error)))
+        auth.signInWithEmailAndPassword(email,password).then(result=> navigate('/home'),error=>(alert(error)))
             
         
 
