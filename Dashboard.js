@@ -4,10 +4,9 @@ import './Sidebar.css'
 import './Rightbar.css'
 import {Search, Person, Chat, Notifications} from '@material-ui/icons'
 import {  Button, Dialog, DialogTitle, DialogContent, TextField } from '@material-ui/core'
-import {
-    RssFeed, AddCircle, Group, HelpOutline } from "@material-ui/icons";
-    import {db} from '../firebase';
-
+import { RssFeed, AddCircle, Group, HelpOutline } from "@material-ui/icons";
+import {db} from '../firebase';
+import { storage } from '../firebase'
   
 //import Sidebar from './Sidebar'
 
@@ -18,7 +17,14 @@ function Dashboard() {
     const [time, setTime] = useState("");
     const [date, setDate] = useState("");
     const [location, setLocation] = useState("");
-    const [image, setImage] = useState([]);
+    const [image, setImage] = useState(null);
+
+    const handleImage = (e) => {
+        if (e.target.files[0]) {
+            setImage(e.target.files[0]);
+
+        }
+    };
 
     function pushPost () {
         db.collection("post").add({
@@ -27,9 +33,28 @@ function Dashboard() {
             date : date,
             location : location,
             
+            
         }).catch(alert("done"));
+        const uploadTask = storage.ref(`images/${image.name}`).put(image);
+        uploadTask.on(
+            "state_changed",
+            snapshot=>{},
+            error => {
+                console.log(error);
+            },
+            () => {
+                storage
+                .ref("images")
+                .child(image.name)
+                .getDownloadURL()
+                .then(url => {
+
+                });
+            }
+        )
 
     }
+    console.log("image :", image)
 
     const [open, setOpen] = React.useState(false);
     
@@ -106,8 +131,15 @@ function Dashboard() {
           {/* <hr className="sidebarHr" /> */}
           
         </div>
-        <div style={{display:"flex",justifyContent:"flex-end",marginTop:-150}}>
-            <AddCircle onClick={handleClickOpen} fontSize="large" style={{cursor:"pointer"}} variant="outlined" />
+        <div style={{display:"flex",justifyContent:"flex-end",marginTop:-150,marginRight:30}}>
+            <AddCircle
+             onClick={handleClickOpen}
+              fontSize="large"
+               style={{cursor:"pointer"}}
+                variant="outlined"
+                
+                />
+                Add Your Post
         <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Post Details</DialogTitle>
         <DialogContent>
@@ -152,7 +184,7 @@ function Dashboard() {
              
               type="file"
             //   value={image}
-              onChange={(e)=>setImage(e.target.files)}
+              onChange={handleImage}
                fullWidth
                 
                 />
