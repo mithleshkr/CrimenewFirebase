@@ -1,22 +1,37 @@
-import React from 'react'
+import React,{useState} from 'react'
 import './Dashboard.css'
 import './Sidebar.css'
+import './Rightbar.css'
 import {Search, Person, Chat, Notifications} from '@material-ui/icons'
+import {  Button, Dialog, DialogTitle, DialogContent, TextField } from '@material-ui/core'
 import {
-    RssFeed,
-    
-    PlayCircleFilledOutlined,
-    Group,
-    Bookmark,
-    HelpOutline,
-    WorkOutline,
-    Event,
-    School,
-  } from "@material-ui/icons";
+    RssFeed, AddCircle, Group, HelpOutline } from "@material-ui/icons";
+  
 //import Sidebar from './Sidebar'
 
 
 function Dashboard() {
+
+    const [about, setAbout] = useState("");
+    const [time, setTime] = useState("");
+    const [date, setDate] = useState("");
+    const [location, setLocation] = useState("");
+    const [image, setImage] = useState(null);
+
+    function pushPost () {
+
+    }
+
+    const [open, setOpen] = React.useState(false);
+    
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
     return (
         <div>
         <div className="topbarContainer">
@@ -63,44 +78,91 @@ function Dashboard() {
               <RssFeed className="sidebarIcon" />
               <span className="sidebarListItemText">Feed</span>
             </li>
-            <li className="sidebarListItem">
-              <Chat className="sidebarIcon" />
-              <span className="sidebarListItemText">Chats</span>
-            </li>
-            <li className="sidebarListItem">
-              <PlayCircleFilledOutlined className="sidebarIcon" />
-              <span className="sidebarListItemText">Videos</span>
-            </li>
+            
+            
             <li className="sidebarListItem">
               <Group className="sidebarIcon" />
               <span className="sidebarListItemText">Groups</span>
             </li>
-            <li className="sidebarListItem">
-              <Bookmark className="sidebarIcon" />
-              <span className="sidebarListItemText">Bookmarks</span>
-            </li>
+            
             <li className="sidebarListItem">
               <HelpOutline className="sidebarIcon" />
               <span className="sidebarListItemText">Questions</span>
             </li>
-            <li className="sidebarListItem">
-              <WorkOutline className="sidebarIcon" />
-              <span className="sidebarListItemText">Jobs</span>
-            </li>
-            <li className="sidebarListItem">
-              <Event className="sidebarIcon" />
-              <span className="sidebarListItemText">Events</span>
-            </li>
-            <li className="sidebarListItem">
-              <School className="sidebarIcon" />
-              <span className="sidebarListItemText">Courses</span>
-            </li>
+            
+           
+           
           </ul>
           {/* <button className="sidebarButton">Show More</button> */}
           {/* <hr className="sidebarHr" /> */}
           
         </div>
+        <div style={{display:"flex",justifyContent:"flex-end",marginTop:-150}}>
+            <AddCircle onClick={handleClickOpen} fontSize="large" style={{cursor:"pointer"}} variant="outlined" />
+        <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Post Details</DialogTitle>
+        <DialogContent>
+            <form>
+           <TextField
+            label="About Post"
+             variant="outlined"
+              placeholder="Enter about Post"
+              type="text"
+              value={about}
+              onChange={(e)=>setAbout(e.target.value)}
+               fullWidth
+                required
+                />
+                 <TextField
+             variant="outlined"
+              type="time"
+              value={time}
+              onChange={(e)=>setTime(e.target.value)}
+               fullWidth
+                required
+                />
+                 <TextField
+             variant="outlined"
+              type="date"
+              value={date}
+              onChange={(e)=>setDate(e.target.value)}
+               fullWidth
+                required
+                />
+                 <TextField
+                 label="Location"
+                 placeholder="Enter location"
+                 variant="outlined"
+                  type="text"
+                  value={location}
+                  onChange={(e)=>setLocation(e.target.value)}
+                  fullWidth
+                   required
+                />
+                 <TextField
+             
+              type="file"
+              value={image}
+              onChange={(e)=>setImage(e.target.files)}
+               fullWidth
+                
+                />
+                <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
+                <Button
+                onClick={pushPost}
+                 variant="outlined"
+                  color="primary"
+                  >
+                      Post
+                      </Button>
+                </div>
+                
+           </form>
+        </DialogContent>
+      </Dialog>
+        </div>
       </div>
+      
         </div>
         
     )
