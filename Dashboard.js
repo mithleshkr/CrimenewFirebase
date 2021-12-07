@@ -47,7 +47,7 @@ function Dashboard() {
                 .ref("images")
                 .child(image.name)
                 .getDownloadURL()
-                .then(url => {
+                .then(url => { console.log("uploaded")
 
                 });
             }
@@ -132,14 +132,15 @@ function Dashboard() {
           
         </div>
         <div style={{display:"flex",justifyContent:"flex-end",marginTop:-150,marginRight:30}}>
-            <AddCircle
-             onClick={handleClickOpen}
+           <Button variant="contained"  onClick={handleClickOpen}> <AddCircle
+            
               fontSize="large"
                style={{cursor:"pointer"}}
                 variant="outlined"
                 
                 />
                 Add Your Post
+                </Button>
         <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Post Details</DialogTitle>
         <DialogContent>
@@ -154,6 +155,7 @@ function Dashboard() {
                fullWidth
                 required
                 />
+                 <br/><br/>
                  <TextField
              variant="outlined"
               type="time"
@@ -162,6 +164,7 @@ function Dashboard() {
                fullWidth
                 required
                 />
+                <br/><br/>
                  <TextField
              variant="outlined"
               type="date"
@@ -170,6 +173,7 @@ function Dashboard() {
                fullWidth
                 required
                 />
+                <br/><br/>
                  <TextField
                  label="Location"
                  placeholder="Enter location"
@@ -180,19 +184,21 @@ function Dashboard() {
                   fullWidth
                    required
                 />
+                <br/>
                  <TextField
              
               type="file"
             //   value={image}
               onChange={handleImage}
-               fullWidth
-                
+               fullWidth 
                 />
+                <br/><br/>
                 <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}>
                 <Button
                 onClick={pushPost}
-                 variant="outlined"
+                 variant="contained"
                   color="primary"
+                  type="button"
                   >
                       Post
                       </Button>
