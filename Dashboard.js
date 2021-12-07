@@ -6,6 +6,8 @@ import {Search, Person, Chat, Notifications} from '@material-ui/icons'
 import {  Button, Dialog, DialogTitle, DialogContent, TextField } from '@material-ui/core'
 import {
     RssFeed, AddCircle, Group, HelpOutline } from "@material-ui/icons";
+    import {db} from '../firebase';
+
   
 //import Sidebar from './Sidebar'
 
@@ -16,9 +18,16 @@ function Dashboard() {
     const [time, setTime] = useState("");
     const [date, setDate] = useState("");
     const [location, setLocation] = useState("");
-    const [image, setImage] = useState(null);
+    const [image, setImage] = useState([]);
 
     function pushPost () {
+        db.collection("post").add({
+            about : about,
+            time : time,
+            date : date,
+            location : location,
+            
+        }).catch(alert("done"));
 
     }
 
@@ -142,7 +151,7 @@ function Dashboard() {
                  <TextField
              
               type="file"
-              value={image}
+            //   value={image}
               onChange={(e)=>setImage(e.target.files)}
                fullWidth
                 
