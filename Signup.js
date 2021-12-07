@@ -2,6 +2,7 @@ import React,{useState} from 'react'
 import { Grid , Paper, Avatar, Typography, TextField, Button} from '@material-ui/core'
 import AddCircleOutlineOutlinedIcon from '@material-ui/icons/AddCircleOutlineOutlined';
 import { auth } from '../firebase';
+import {db} from '../firebase';
 
 
 function Signup()  {
@@ -9,9 +10,19 @@ function Signup()  {
     
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [name, setName] = useState("");
+    const [age, setAge] = useState("");
+    const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
 
     const pushauth = () => {
         auth.createUserWithEmailAndPassword(email,password).then(result=>{console.log(result)},error=>(alert(error)));
+        db.collection("user").add({
+            name : name,
+            age : age,
+            city : city,
+            country : country
+        }).catch(alert("done"))
     }
    
 
@@ -50,7 +61,42 @@ function Signup()  {
                          value={password}
                          onChange={(e)=>setPassword(e.target.value)}
                          />
-                         <TextField fullWidth label="Name" placeholder="Enter your name" required />
+                         <TextField
+                          fullWidth
+                           label="Name"
+                            placeholder="Enter your name"
+                            type="text"
+                            required
+                            value={name}
+                            onChange={(e)=>setName(e.target.value)}
+                            />
+                            <TextField
+                          fullWidth
+                           label="Age"
+                            placeholder="Enter your age"
+                            type="number"
+                            required
+                            value={age}
+                            onChange={(e)=>setAge(e.target.value)}
+                            />
+                            <TextField
+                          fullWidth
+                           label="City"
+                            placeholder="Enter city name"
+                            type="text"
+                            required
+                            value={city}
+                            onChange={(e)=>setCity(e.target.value)}
+                            />
+                            <TextField
+                          fullWidth
+                           label="Country"
+                            placeholder="Enter country name"
+                            type="text"
+                            required
+                            value={country}
+                            onChange={(e)=>setCountry(e.target.value)}
+                            />
                     
                     <br/>
                     <Button type="button" variant="contained" color="primary" 
