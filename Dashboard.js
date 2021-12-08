@@ -2,9 +2,11 @@ import React,{useState} from 'react'
 import './Dashboard.css'
 import './Sidebar.css'
 import './Rightbar.css'
+import './Post.css'
+
 import {Search, Person, Chat, Notifications} from '@material-ui/icons'
-import {  Button, Dialog, DialogTitle, DialogContent, TextField, Card } from '@material-ui/core'
-import { RssFeed, AddCircle, Group, HelpOutline } from "@material-ui/icons";
+import {  Button, Dialog, DialogTitle, DialogContent, TextField } from '@material-ui/core'
+import { RssFeed, AddCircle, Group, HelpOutline,MoreVert } from "@material-ui/icons";
 import {db} from '../firebase';
 import { storage } from '../firebase'
   
@@ -82,8 +84,9 @@ function Dashboard() {
     const handleClose = () => {
       setOpen(false);
     };
+    //TopBar
     return (
-        <div>
+        <div> 
         <div className="topbarContainer">
             <div className="topbarLeft">
                 <span className="logo">CrimeAlert</span>
@@ -148,16 +151,50 @@ function Dashboard() {
           {/* <hr className="sidebarHr" /> */}
           
         </div>
-        <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}><h2>post</h2></div>
-        {
+       {/*Middle Post Code */}
+       {
             info.map((post) => (
-            <card style={{display:"flex",alignItems:"center",justifyContent:"center"}}> 
-                   {post.about} 
-                   {post.time}
-                   </card>
+            
+        <div className="post">
+      <div className="postWrapper">
+        <div className="postTop">
+          <div className="postTopLeft">
+          <img
+              className="postProfileImg"
+              src=""
+              alt=""
+            />
+            <span className="postUsername">
+              username
+            </span>
+            <span className="postDate">{post.date}</span>
+            <span className="postDate">{post.time}</span>
+            <span className="postDate">{post.location}</span>
+            </div>
+            </div>
+          <div className="postTopRight">
+            <MoreVert />
+          </div>
+        </div>
+        <div className="postCenter">
+          <span className="postText">{post.about}</span>
+          <img className="postImg" src="post pic" alt="" />
+        </div>
+        <div className="postBottom">
+          <div className="postBottomLeft">
+            
+            {/* <span className="postLikeCounter">like</span> */}
+          </div>
+          <div className="postBottomRight">
+            {/* <span className="postCommentText"> comments</span> */}
+          </div>
+        
+          </div>
+      
+    </div>
             ))
-        }
-        <div style={{display:"flex",justifyContent:"flex-end",marginTop:-350,marginRight:30}}>
+}
+        <div style={{display:"flex",justifyContent:"flex-end",marginTop:-1400,marginRight:20}}>
            <Button variant="contained"  onClick={handleClickOpen} style={{position:"fixed"}}> <AddCircle
             
               fontSize="large"
