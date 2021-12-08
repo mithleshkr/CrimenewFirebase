@@ -6,14 +6,16 @@ import './Post.css'
 
 import {Search, Person, Chat, Notifications} from '@material-ui/icons'
 import {  Button, Dialog, DialogTitle, DialogContent, TextField } from '@material-ui/core'
-import { RssFeed, AddCircle, Group, HelpOutline,MoreVert } from "@material-ui/icons";
+import { RssFeed, AddCircle, Group,MoreVert } from "@material-ui/icons";
 import {db} from '../firebase';
 import { storage } from '../firebase'
+import {useNavigate} from 'react-router-dom';
   
 //import Sidebar from './Sidebar'
 
 
 function Dashboard() {
+    const navigate = useNavigate();
 
     const [about, setAbout] = useState("");
     const [time, setTime] = useState("");
@@ -100,7 +102,7 @@ function Dashboard() {
                 <div className="topbarRight">
                     <div className="topbarLinks">
                         <span className="topbarLink" > Home</span>
-                        <span className="topbarLink"> Timeline</span>
+                        <span className="topbarLink" onClick={()=> navigate('/timeline')}> Timeline</span>
                     </div>
                     <div className="topbarIcons">
                         <div className="topbarIconItems">
@@ -129,19 +131,27 @@ function Dashboard() {
         <div className="sidebarWrapper">
           <ul className="sidebarList">
             <li className="sidebarListItem">
-              <RssFeed className="sidebarIcon" />
-              <span className="sidebarListItemText">Feed</span>
+              {/* <RssFeed className="sidebarIcon" />
+              <span className="sidebarListItemText">Feed</span> */}
             </li>
             
             
             <li className="sidebarListItem">
-              <Group className="sidebarIcon" />
-              <span className="sidebarListItemText">Groups</span>
+              {/* <Group className="sidebarIcon" />
+              <span className="sidebarListItemText">Groups</span> */}
             </li>
             
             <li className="sidebarListItem">
-              <HelpOutline className="sidebarIcon" />
-              <span className="sidebarListItemText">Questions</span>
+              
+              <span className="sidebarListItemText"><Button variant="contained"  onClick={handleClickOpen} style={{}}> <AddCircle
+            
+            fontSize="large"
+             style={{cursor:"pointer"}}
+              variant="outlined"
+              
+              />
+              <p>Add Your Post</p>
+              </Button></span>
             </li>
             
            
@@ -194,16 +204,8 @@ function Dashboard() {
     </div>
             ))
 }
-        <div style={{display:"flex",justifyContent:"flex-end",marginTop:-1400,marginRight:20}}>
-           <Button variant="contained"  onClick={handleClickOpen} style={{position:"fixed"}}> <AddCircle
-            
-              fontSize="large"
-               style={{cursor:"pointer"}}
-                variant="outlined"
-                
-                />
-                <p>Add Your Post</p>
-                </Button>
+        <div style={{display:"flex",justifyContent:"flex-end",position:"sticky"}}>
+          
         <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Post Details</DialogTitle>
         <DialogContent>
