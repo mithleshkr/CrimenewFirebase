@@ -3,7 +3,7 @@ import './Dashboard.css'
 import './Sidebar.css'
 import './Rightbar.css'
 import {Search, Person, Chat, Notifications} from '@material-ui/icons'
-import {  Button, Dialog, DialogTitle, DialogContent, TextField } from '@material-ui/core'
+import {  Button, Dialog, DialogTitle, DialogContent, TextField, Card } from '@material-ui/core'
 import { RssFeed, AddCircle, Group, HelpOutline } from "@material-ui/icons";
 import {db} from '../firebase';
 import { storage } from '../firebase'
@@ -18,6 +18,22 @@ function Dashboard() {
     const [date, setDate] = useState("");
     const [location, setLocation] = useState("");
     const [image, setImage] = useState(null);
+
+    const [info, setInfo] = useState([]);
+    window.addEventListener('load', () => {
+        Fetchdata();
+      });
+      const Fetchdata = ()=>{
+        db.collection("post").get().then((querySnapshot) => {
+             
+            
+            querySnapshot.forEach(element => {
+                var data = element.data();
+                setInfo(arr => [...arr , data]);
+                  
+            });
+        })
+    }
 
     const handleImage = (e) => {
         if (e.target.files[0]) {
@@ -80,7 +96,7 @@ function Dashboard() {
                 </div>
                 <div className="topbarRight">
                     <div className="topbarLinks">
-                        <span className="topbarLink"> Home</span>
+                        <span className="topbarLink" > Home</span>
                         <span className="topbarLink"> Timeline</span>
                     </div>
                     <div className="topbarIcons">
@@ -104,6 +120,7 @@ function Dashboard() {
                 </div>  
             
         </div> 
+        
         {/* Sidebar code */}
         <div className="sidebar">
         <div className="sidebarWrapper">
@@ -131,15 +148,24 @@ function Dashboard() {
           {/* <hr className="sidebarHr" /> */}
           
         </div>
-        <div style={{display:"flex",justifyContent:"flex-end",marginTop:-150,marginRight:30}}>
-           <Button variant="contained"  onClick={handleClickOpen}> <AddCircle
+        <div style={{display:"flex",alignItems:"center",justifyContent:"center"}}><h2>post</h2></div>
+        {
+            info.map((post) => (
+            <card style={{display:"flex",alignItems:"center",justifyContent:"center"}}> 
+                   {post.about} 
+                   {post.time}
+                   </card>
+            ))
+        }
+        <div style={{display:"flex",justifyContent:"flex-end",marginTop:-350,marginRight:30}}>
+           <Button variant="contained"  onClick={handleClickOpen} style={{position:"fixed"}}> <AddCircle
             
               fontSize="large"
                style={{cursor:"pointer"}}
                 variant="outlined"
                 
                 />
-                Add Your Post
+                <p>Add Your Post</p>
                 </Button>
         <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Post Details</DialogTitle>
