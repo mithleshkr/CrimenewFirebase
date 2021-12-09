@@ -1,12 +1,19 @@
 import React,{useState} from 'react'
 import {useNavigate} from 'react-router-dom';
-import {Search, Person, Chat, Notifications,ExitToApp} from '@material-ui/icons'
+import {Search, Person, Chat, Notifications,ExitToApp,Delete} from '@material-ui/icons'
 import './Profile.css'
 import { db } from '../firebase';
+//import { Dialog, DialogTitle, TextField,Button } from '@material-ui/core';
 //import LogoutIcon from '@material-ui/icons/Logout';
 
 function Timeline() {
     const navigate = useNavigate();
+
+    
+   // const [image, setImage] = useState(null);
+
+    
+    
 
     const [info, setInfo] = useState([]);
     window.addEventListener('load', () => {
@@ -14,14 +21,22 @@ function Timeline() {
       });
       const Fetchdata = ()=>{
         db.collection("post").get().then((querySnapshot) => {
+            
              
             
             querySnapshot.forEach(element => {
                 var data = element.data();
-                setInfo(arr => [...arr , data]);
+                setInfo(arr => [...arr ,data]);
                   
             });
         })
+    }
+    const deletePost =  () =>  {
+        db.collection("post").doc("post").delete().then(() => {
+           alert("deleted");
+        }).catch((error) => {
+            alert(error);
+        });
     }
 
     return (
@@ -95,7 +110,9 @@ function Timeline() {
             info.map((post) => (
             
         <div className="post">
+            
       <div className="postWrapper">
+         
         <div className="postTop">
           <div className="postTopLeft">
           {/* <img
@@ -111,19 +128,22 @@ function Timeline() {
             <span className="postDate">{post.location}</span>
             </div>
             </div>
+            
           <div className="postTopRight">
             {/* <MoreVert /> */}
+            
           </div>
         </div>
         <div className="postCenter">
           <span className="postText">{post.about}</span>
+          
           
 
           {/* <img className="postImg" src="post pic" alt="" /> */}
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">
-            
+          
             {/* <span className="postLikeCounter">like</span> */}
           </div>
           <div className="postBottomRight">
@@ -131,7 +151,10 @@ function Timeline() {
           </div>
         
           </div>
-      
+          <div style={{display:"flex",marginLeft:200}}>
+         
+          <span><Delete onClick={deletePost}/></span>
+          </div>
     </div>
             ))
 }
