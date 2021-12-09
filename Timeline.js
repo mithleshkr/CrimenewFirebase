@@ -1,10 +1,28 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {useNavigate} from 'react-router-dom';
 import {Search, Person, Chat, Notifications,ExitToApp} from '@material-ui/icons'
+import './Profile.css'
+import { db } from '../firebase';
 //import LogoutIcon from '@material-ui/icons/Logout';
 
 function Timeline() {
     const navigate = useNavigate();
+
+    const [info, setInfo] = useState([]);
+    window.addEventListener('load', () => {
+        Fetchdata();
+      });
+      const Fetchdata = ()=>{
+        db.collection("post").get().then((querySnapshot) => {
+             
+            
+            querySnapshot.forEach(element => {
+                var data = element.data();
+                setInfo(arr => [...arr , data]);
+                  
+            });
+        })
+    }
 
     return (
         <div>
@@ -48,7 +66,75 @@ function Timeline() {
 
                 </div>  
             </div>
+            {/* Profile code */}
+            <div className="profileRight">
+          <div className="profileRightTop">
+            <div className="profileCover">
+              <img
+                className="profileCoverImg"
+                src="assets/post/3.jpeg"
+                alt=""
+              />
+              <img
+                className="profileUserImg"
+                src="assets/person/7.jpeg"
+                alt=""
+              />
+            </div>
+            <div className="profileInfo">
+                <h4 className="profileInfoName">Mithlesh Kumar</h4>
+                
+            </div>
+          </div>
+          <div className="profileRightBottom">
+            {/* <Feed />
+            <Rightbar profile/> */}
+          </div>
+        </div>
+        {
+            info.map((post) => (
             
+        <div className="post">
+      <div className="postWrapper">
+        <div className="postTop">
+          <div className="postTopLeft">
+          {/* <img
+              className="postProfileImg"
+              src=""
+              alt=""
+            />
+            <span className="postUsername">
+              username
+            </span> */}
+            <span className="postDate">{post.date}</span>
+            <span className="postDate">{post.time}</span>
+            <span className="postDate">{post.location}</span>
+            </div>
+            </div>
+          <div className="postTopRight">
+            {/* <MoreVert /> */}
+          </div>
+        </div>
+        <div className="postCenter">
+          <span className="postText">{post.about}</span>
+          
+
+          {/* <img className="postImg" src="post pic" alt="" /> */}
+        </div>
+        <div className="postBottom">
+          <div className="postBottomLeft">
+            
+            {/* <span className="postLikeCounter">like</span> */}
+          </div>
+          <div className="postBottomRight">
+            {/* <span className="postCommentText"> comments</span> */}
+          </div>
+        
+          </div>
+      
+    </div>
+            ))
+}
         </div>
     )
 }
