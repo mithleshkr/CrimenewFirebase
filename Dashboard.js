@@ -3,7 +3,7 @@ import './Dashboard.css'
 import './Sidebar.css'
 import './Rightbar.css'
 import './Post.css'
-
+import { uid } from 'uid';
 import {Search, Person, Chat, Notifications,ExitToApp} from '@material-ui/icons'
 import {  Button, Dialog, DialogTitle, DialogContent, TextField } from '@material-ui/core'
 import {  AddCircle } from "@material-ui/icons";
@@ -16,7 +16,8 @@ import {useNavigate} from 'react-router-dom';
 
 function Dashboard() {
     const navigate = useNavigate();
-
+    const id = uid();
+    //const [pid, setPid] = useState("");
     const [about, setAbout] = useState("");
     const [time, setTime] = useState("");
     const [date, setDate] = useState("");
@@ -72,8 +73,10 @@ function Dashboard() {
                 .then(url => { db.collection("post").add({imgurl:url,about : about,
                   time : time,
                   date : date,
-                  location : location})
-
+                  location : location,
+                pid : id
+                })
+                  
                 });
             }
         )
@@ -180,7 +183,7 @@ function Dashboard() {
     <div className="post">
         <ul style={{listStyleType:"none"}}>
           <li style={{textAlign:"center"}}>{post.about}</li>
-          <li><img src={post.imgurl} height={} alt="" /></li>
+          <li><img src={post.imgurl} height="400px" width="500px" alt="" /></li>
           <li style={{textAlign:"center"}}><span>{post.date}</span> &nbsp;&nbsp;&nbsp; <span>{post.time}</span> &nbsp;&nbsp;&nbsp;    <span>{post.location}</span></li>
         </ul>
     </div>
