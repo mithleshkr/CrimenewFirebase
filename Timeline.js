@@ -5,18 +5,20 @@ import './Profile.css'
 import { db } from '../firebase';
 import profile from '../profile.png'
 import cover from '../cover.png'
+
+//import { uid } from 'uid';
 //import { Dialog, DialogTitle, TextField,Button } from '@material-ui/core';
 //import LogoutIcon from '@material-ui/icons/Logout';
 
 function Timeline() {
     const navigate = useNavigate();
-
+    // const id =uid();
     
    // const [image, setImage] = useState(null);
 
     
     
-
+    
     const [info, setInfo] = useState([]);
     window.addEventListener('load', () => {
         Fetchdata();
@@ -33,13 +35,13 @@ function Timeline() {
             });
         })
     }
-    const deletePost =  () =>  {
-        db.collection("post").doc().delete().then(() => {
-           alert("deleted");
-        }).catch((error) => {
-            alert(error);
-        });
-    }
+    // const deletePost =  (pid) =>  {
+    //     db.collection("post").doc(pid).delete().then(() => {
+    //        alert(pid);
+    //     }).catch((error) => {
+    //         alert(error);
+    //     });
+    // }
 
     return (
         <div>
@@ -155,11 +157,11 @@ function Timeline() {
         
       //     </div>
           // <div style={{display:"flex",marginLeft:200}}>
-         <div className='post'>
+         <div className='post'style={{overflow:"auto"}}>
             <ul style={{listStyleType:"none"}}>
-          <li style={{textAlign:"center"}}>{post.about}</li>
-          <li><img src={post.imgurl}  alt="" /></li>
-          <li style={{textAlign:"center",justifyContent:"space-evenly"}}><span>{post.date}</span> &nbsp;&nbsp;&nbsp; <span>{post.time}</span> &nbsp;&nbsp;&nbsp;    <span>{post.location}</span> &nbsp;    <span ><Delete color='secondary' onClick={deletePost}/></span> </li>
+          <li style={{textAlign:"center"}}>{post.about}<span style={{display:"flex",justifyContent:"flex-end",color:"red"}}><Delete  onClick={db.collection("post").doc(post.pid).delete()} /></span></li>
+          <li><img src={post.imgurl} height="400px" width="500px"  alt="" /></li>
+          <li style={{textAlign:"center",justifyContent:"space-evenly"}}><span>{post.date}</span> &nbsp;&nbsp;&nbsp; <span>{post.time}</span> &nbsp;&nbsp;&nbsp;    <span>{post.location}</span> &nbsp;    </li>
           
           </ul>
          </div>
