@@ -4,13 +4,13 @@ import './Sidebar.css'
 import './Rightbar.css'
 import './Post.css'
 
-import {Search, Person, Chat, Notifications} from '@material-ui/icons'
+import {Search, Person, Chat, Notifications,ExitToApp} from '@material-ui/icons'
 import {  Button, Dialog, DialogTitle, DialogContent, TextField } from '@material-ui/core'
-import { RssFeed, AddCircle, Group,MoreVert } from "@material-ui/icons";
+import {  AddCircle } from "@material-ui/icons";
 import {db} from '../firebase';
 import { storage } from '../firebase'
 import {useNavigate} from 'react-router-dom';
-  
+//import cover from '../cover.png'
 //import Sidebar from './Sidebar'
 
 
@@ -22,6 +22,7 @@ function Dashboard() {
     const [date, setDate] = useState("");
     const [location, setLocation] = useState("");
     const [image, setImage] = useState(null);
+    //const [imgurl, setImgurl] = useState("");
 
     const [info, setInfo] = useState([]);
     window.addEventListener('load', () => {
@@ -47,14 +48,15 @@ function Dashboard() {
     };
 
     function pushPost () {
-        db.collection("post").add({
-            about : about,
-            time : time,
-            date : date,
-            location : location,
+        // db.collection("post").add({
+        //     about : about,
+        //     time : time,
+        //     date : date,
+        //     location : location,
             
             
-        }).catch(alert("done"));
+            
+        // }).catch(alert("done"));
         const uploadTask = storage.ref(`images/${image.name}`).put(image);
         uploadTask.on(
             "state_changed",
@@ -67,7 +69,10 @@ function Dashboard() {
                 .ref("images")
                 .child(image.name)
                 .getDownloadURL()
-                .then(url => { console.log("uploaded")
+                .then(url => { db.collection("post").add({imgurl:url,about : about,
+                  time : time,
+                  date : date,
+                  location : location})
 
                 });
             }
@@ -116,6 +121,12 @@ function Dashboard() {
                         <div className="topbarIconItems">
                             <Notifications />
                             <span className="topbarIconBadge">3</span>
+                        </div>
+                        <div className="topbarIconItems" style={{color:"black"}}>
+                            <ExitToApp onClick={()=>navigate("/")} />
+                            <span style={{fontSize:"16px",color:"white"}}>Logout</span>
+                            
+                            
                         </div>
                         
                     </div>
@@ -180,15 +191,16 @@ function Dashboard() {
             <span className="postDate">{post.date}</span>
             <span className="postDate">{post.time}</span>
             <span className="postDate">{post.location}</span>
+            {/* <img src={post.imgurl} alt="" /> */}
             </div>
             </div>
           <div className="postTopRight">
-            <MoreVert />
+            {/* <MoreVert /> */}
           </div>
         </div>
         <div className="postCenter">
           <span className="postText">{post.about}</span>
-          <img className="postImg" src="post pic" alt="" />
+          <img className="postImg" src={post.imgurl} alt="" />
         </div>
         <div className="postBottom">
           <div className="postBottomLeft">
