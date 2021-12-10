@@ -3,6 +3,8 @@ import {useNavigate} from 'react-router-dom';
 import {Search, Person, Chat, Notifications,ExitToApp,Delete} from '@material-ui/icons'
 import './Profile.css'
 import { db } from '../firebase';
+import profile from '../profile.png'
+import cover from '../cover.png'
 //import { Dialog, DialogTitle, TextField,Button } from '@material-ui/core';
 //import LogoutIcon from '@material-ui/icons/Logout';
 
@@ -32,7 +34,7 @@ function Timeline() {
         })
     }
     const deletePost =  () =>  {
-        db.collection("post").doc("post").delete().then(() => {
+        db.collection("post").doc().delete().then(() => {
            alert("deleted");
         }).catch((error) => {
             alert(error);
@@ -87,12 +89,12 @@ function Timeline() {
             <div className="profileCover">
               <img
                 className="profileCoverImg"
-                src="assets/post/3.jpeg"
+                src={cover}
                 alt=""
               />
               <img
                 className="profileUserImg"
-                src="assets/person/7.jpeg"
+                src={profile}
                 alt=""
               />
             </div>
@@ -109,53 +111,59 @@ function Timeline() {
         {
             info.map((post) => (
             
-        <div className="post">
+      //   <div className="post">
             
-      <div className="postWrapper">
+      // <div className="postWrapper">
          
-        <div className="postTop">
-          <div className="postTopLeft">
-          {/* <img
-              className="postProfileImg"
-              src=""
-              alt=""
-            />
-            <span className="postUsername">
-              username
-            </span> */}
-            <span className="postDate">{post.date}</span>
-            <span className="postDate">{post.time}</span>
-            <span className="postDate">{post.location}</span>
-            </div>
-            </div>
+      //   <div className="postTop">
+      //     <div className="postTopLeft">
+      //     {/* <img
+      //         className="postProfileImg"
+      //         src=""
+      //         alt=""
+      //       />
+      //       <span className="postUsername">
+      //         username
+      //       </span> */}
+      //       <span className="postDate">{post.date}</span>
+      //       <span className="postDate">{post.time}</span>
+      //       <span className="postDate">{post.location}</span>
+      //       </div>
+      //       </div>
             
-          <div className="postTopRight">
-            {/* <MoreVert /> */}
+      //     <div className="postTopRight">
+      //       {/* <MoreVert /> */}
             
-          </div>
-        </div>
-        <div className="postCenter">
-          <span className="postText">{post.about}</span>
+      //     </div>
+      //   </div>
+      //   <div className="postCenter">
+      //     <span className="postText">{post.about}</span>
+      //     <img src={post.imgurl} alt="" />
           
           
 
-          {/* <img className="postImg" src="post pic" alt="" /> */}
-        </div>
-        <div className="postBottom">
-          <div className="postBottomLeft">
+      //     {/* <img className="postImg" src="post pic" alt="" /> */}
+      //   </div>
+      //   <div className="postBottom">
+      //     <div className="postBottomLeft">
           
-            {/* <span className="postLikeCounter">like</span> */}
-          </div>
-          <div className="postBottomRight">
-            {/* <span className="postCommentText"> comments</span> */}
-          </div>
+      //       {/* <span className="postLikeCounter">like</span> */}
+      //     </div>
+      //     <div className="postBottomRight">
+      //       {/* <span className="postCommentText"> comments</span> */}
+      //     </div>
         
-          </div>
-          <div style={{display:"flex",marginLeft:200}}>
-         
-          <span><Delete onClick={deletePost}/></span>
-          </div>
-    </div>
+      //     </div>
+          // <div style={{display:"flex",marginLeft:200}}>
+         <div className='post'>
+            <ul style={{listStyleType:"none"}}>
+          <li style={{textAlign:"center"}}>{post.about}</li>
+          <li><img src={post.imgurl}  alt="" /></li>
+          <li style={{textAlign:"center",justifyContent:"space-evenly"}}><span>{post.date}</span> &nbsp;&nbsp;&nbsp; <span>{post.time}</span> &nbsp;&nbsp;&nbsp;    <span>{post.location}</span> &nbsp;    <span ><Delete color='secondary' onClick={deletePost}/></span> </li>
+          
+          </ul>
+         </div>
+    //</div>
             ))
 }
         </div>
