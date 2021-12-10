@@ -176,44 +176,16 @@ function Dashboard() {
        {
             info.map((post) => (
             
-        <div className="post">
-      <div className="postWrapper">
-        <div className="postTop">
-          <div className="postTopLeft">
-          <img
-              className="postProfileImg"
-              src=""
-              alt=""
-            />
-            <span className="postUsername">
-              username
-            </span>
-            <span className="postDate">{post.date}</span>
-            <span className="postDate">{post.time}</span>
-            <span className="postDate">{post.location}</span>
-            {/* <img src={post.imgurl} alt="" /> */}
-            </div>
-            </div>
-          <div className="postTopRight">
-            {/* <MoreVert /> */}
-          </div>
-        </div>
-        <div className="postCenter">
-          <span className="postText">{post.about}</span>
-          <img className="postImg" src={post.imgurl} alt="" />
-        </div>
-        <div className="postBottom">
-          <div className="postBottomLeft">
-            
-            {/* <span className="postLikeCounter">like</span> */}
-          </div>
-          <div className="postBottomRight">
-            {/* <span className="postCommentText"> comments</span> */}
-          </div>
-        
-          </div>
-      
+    //     
+    <div className="post">
+        <ul style={{listStyleType:"none"}}>
+          <li style={{textAlign:"center"}}>{post.about}</li>
+          <li><img src={post.imgurl} height={} alt="" /></li>
+          <li style={{textAlign:"center"}}><span>{post.date}</span> &nbsp;&nbsp;&nbsp; <span>{post.time}</span> &nbsp;&nbsp;&nbsp;    <span>{post.location}</span></li>
+        </ul>
     </div>
+    
+  
             ))
 }
         <div style={{display:"flex",justifyContent:"flex-end",position:"sticky"}}>
@@ -276,6 +248,7 @@ function Dashboard() {
                  variant="contained"
                   color="primary"
                   type="button"
+                  disabled={!about + !date + !time + !location }
                   >
                       Post
                       </Button>
