@@ -6,13 +6,17 @@ import { db } from '../firebase';
 import profile from '../profile.png'
 import cover from '../cover.png'
 
+//import firebase from 'firebase';
+
+//import {deleteDoc} from "firebase/firestore"
+
 //import { uid } from 'uid';
 //import { Dialog, DialogTitle, TextField,Button } from '@material-ui/core';
 //import LogoutIcon from '@material-ui/icons/Logout';
 
-function Timeline() {
+const Timeline =()=> {
     const navigate = useNavigate();
-    // const id =uid();
+     
     
    // const [image, setImage] = useState(null);
 
@@ -23,24 +27,50 @@ function Timeline() {
     window.addEventListener('load', () => {
         Fetchdata();
       });
-      const Fetchdata = ()=>{
-        db.collection("post").get().then((querySnapshot) => {
+      function Fetchdata() {
+          db.collection("post")
+          .get()
+          .then((snapshot)=>{
+              if(snapshot.docs.length){
+                  snapshot.docs.forEach((doc)=>{
+                      setInfo((prev)=>{
+                          return[...prev,{data:doc.data(),id:doc.id}];
+                      });
+                  });
+              }
+          });
+          console.log(info);
+      }
+    //   const Fetchdata = ()=>{
+    //     db.collection("post").get().then((querySnapshot) => {
             
              
             
-            querySnapshot.forEach(element => {
-                var data = element.data();
-                setInfo(arr => [...arr ,data]);
+    //         querySnapshot.forEach(element => {
+    //             var data = element.data();
+    //             setInfo(arr => [...arr ,data]);
                   
-            });
-        })
+    //         });
+    //     })
+    // }
+    //  const deletePost =  (id) =>  {
+    //     const projectRef = firebase.database().ref(`/post/${id}`)
+    //     projectRef.remove()
+    //  }
+    const deletePost = (userId) => {
+        db.collection('post').doc(userId).delete()
+
     }
-    // const deletePost =  (pid) =>  {
-    //     db.collection("post").doc(pid).delete().then(() => {
-    //        alert(pid);
-    //     }).catch((error) => {
-    //         alert(error);
-    //     });
+     
+
+    // const  deletePost = async (id) => {
+    //     const docRef = doc(db, "post",id);
+    //     await deleteDoc(docRef);
+    // };
+
+    // const handleDelete = () => {
+    //     console.log(info.id);
+
     // }
 
     return (
@@ -113,59 +143,16 @@ function Timeline() {
         {
             info.map((post) => (
             
-      //   <div className="post">
-            
-      // <div className="postWrapper">
-         
-      //   <div className="postTop">
-      //     <div className="postTopLeft">
-      //     {/* <img
-      //         className="postProfileImg"
-      //         src=""
-      //         alt=""
-      //       />
-      //       <span className="postUsername">
-      //         username
-      //       </span> */}
-      //       <span className="postDate">{post.date}</span>
-      //       <span className="postDate">{post.time}</span>
-      //       <span className="postDate">{post.location}</span>
-      //       </div>
-      //       </div>
-            
-      //     <div className="postTopRight">
-      //       {/* <MoreVert /> */}
-            
-      //     </div>
-      //   </div>
-      //   <div className="postCenter">
-      //     <span className="postText">{post.about}</span>
-      //     <img src={post.imgurl} alt="" />
-          
-          
-
-      //     {/* <img className="postImg" src="post pic" alt="" /> */}
-      //   </div>
-      //   <div className="postBottom">
-      //     <div className="postBottomLeft">
-          
-      //       {/* <span className="postLikeCounter">like</span> */}
-      //     </div>
-      //     <div className="postBottomRight">
-      //       {/* <span className="postCommentText"> comments</span> */}
-      //     </div>
-        
-      //     </div>
-          // <div style={{display:"flex",marginLeft:200}}>
-         <div className='post'style={{overflow:"auto"}}>
+      
+         <div className='post'style={{overflow:"auto"}} >
             <ul style={{listStyleType:"none"}}>
-          <li style={{textAlign:"center"}}>{post.about}<span style={{display:"flex",justifyContent:"flex-end",color:"red"}}><Delete  onClick={db.collection("post").doc(post.pid).delete()} /></span></li>
-          <li><img src={post.imgurl} height="400px" width="500px"  alt="" /></li>
-          <li style={{textAlign:"center",justifyContent:"space-evenly"}}><span>{post.date}</span> &nbsp;&nbsp;&nbsp; <span>{post.time}</span> &nbsp;&nbsp;&nbsp;    <span>{post.location}</span> &nbsp;    </li>
+          <li style={{textAlign:"center"}}>{post.data.about}<span style={{display:"flex",justifyContent:"flex-end",color:"red"}}><button onClick={()=>deletePost(post.id)}><Delete   /></button></span></li>
+          <li><img src={post.data.imgurl} height="400px" width="500px"  alt="" /></li>
+          <li style={{textAlign:"center",justifyContent:"space-evenly"}}><span>{post.data.date}</span> &nbsp;&nbsp;&nbsp; <span>{post.data.time}</span> &nbsp;&nbsp;&nbsp;    <span>{post.data.location}</span> &nbsp;    </li>
           
           </ul>
          </div>
-    //</div>
+    
             ))
 }
         </div>
