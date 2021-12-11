@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom';
 import {Search, Person, Chat, Notifications,ExitToApp,Delete} from '@material-ui/icons'
 import './Profile.css'
@@ -24,9 +24,12 @@ const Timeline =()=> {
     
     
     const [info, setInfo] = useState([]);
-    window.addEventListener('load', () => {
+    useEffect(()=>{
         Fetchdata();
-      });
+    },[]);
+    // window.addEventListener('load', () => {
+    //     Fetchdata();
+    //   });
       function Fetchdata() {
           db.collection("post")
           .get()
@@ -57,8 +60,8 @@ const Timeline =()=> {
     //     const projectRef = firebase.database().ref(`/post/${id}`)
     //     projectRef.remove()
     //  }
-    const deletePost = (userId) => {
-        db.collection('post').doc(userId).delete()
+    const deletePost = (id) => {
+        db.collection('post').doc(id).delete()
 
     }
      
