@@ -1,9 +1,9 @@
-import React,{useState} from 'react'
+import React,{useState,useEffect} from 'react'
 import './Dashboard.css'
 import './Sidebar.css'
 import './Rightbar.css'
 import './Post.css'
-import { uid } from 'uid';
+
 import {Search, Person, Chat, Notifications,ExitToApp} from '@material-ui/icons'
 import {  Button, Dialog, DialogTitle, DialogContent, TextField } from '@material-ui/core'
 import {  AddCircle } from "@material-ui/icons";
@@ -16,7 +16,7 @@ import {useNavigate} from 'react-router-dom';
 
 function Dashboard() {
     const navigate = useNavigate();
-    const id = uid();
+    
     //const [pid, setPid] = useState("");
     const [about, setAbout] = useState("");
     const [time, setTime] = useState("");
@@ -26,19 +26,25 @@ function Dashboard() {
     //const [imgurl, setImgurl] = useState("");
 
     const [info, setInfo] = useState([]);
-    window.addEventListener('load', () => {
-        Fetchdata();
-      });
-      const Fetchdata = ()=>{
-        db.collection("post").get().then((querySnapshot) => {
-             
-            
-            querySnapshot.forEach(element => {
-                var data = element.data();
-                setInfo(arr => [...arr , data]);
-                  
-            });
-        })
+    useEffect(()=>{
+      Fetchdata();
+  },[]);
+  // window.addEventListener('load', () => {
+  //     Fetchdata();
+  //   });
+    function Fetchdata() {
+        db.collection("post")
+        .get()
+        .then((snapshot)=>{
+            if(snapshot.docs.length){
+                snapshot.docs.forEach((doc)=>{
+                    setInfo((prev)=>{
+                        return[...prev,{data:doc.data(),id:doc.id}];
+                    });
+                });
+            }
+        });
+        console.log(info);
     }
 
     const handleImage = (e) => {
@@ -74,7 +80,7 @@ function Dashboard() {
                   time : time,
                   date : date,
                   location : location,
-                pid : id
+                
                 })
                   
                 });
@@ -182,9 +188,9 @@ function Dashboard() {
     //     
     <div className="post">
         <ul style={{listStyleType:"none"}}>
-          <li style={{textAlign:"center"}}>{post.about}</li>
-          <li><img src={post.imgurl} height="400px" width="500px" alt="" /></li>
-          <li style={{textAlign:"center"}}><span>{post.date}</span> &nbsp;&nbsp;&nbsp; <span>{post.time}</span> &nbsp;&nbsp;&nbsp;    <span>{post.location}</span></li>
+          <li style={{textAlign:"center"}}>{post.data.about}</li>
+          <li><img src={post.data.imgurl} height="400px" width="500px" alt="" /></li>
+          <li style={{textAlign:"center"}}><span>{post.data.date}</span> &nbsp;&nbsp;&nbsp; <span>{post.data.time}</span> &nbsp;&nbsp;&nbsp;    <span>{post.data.location}</span></li>
         </ul>
     </div>
     
