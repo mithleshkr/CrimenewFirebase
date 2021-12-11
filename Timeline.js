@@ -1,6 +1,7 @@
 import React,{useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom';
 import {Search, Person, Chat, Notifications,ExitToApp,Delete} from '@material-ui/icons'
+import {  Button, Dialog, DialogTitle, DialogContent, TextField } from '@material-ui/core'
 import './Profile.css'
 import { db } from '../firebase';
 import profile from '../profile.png'
@@ -44,6 +45,16 @@ const Timeline =()=> {
           });
           console.log(info);
       }
+      const [open, setOpen] = React.useState(false);
+    
+
+      const handleClickOpen = () => {
+        setOpen(true);
+      };
+    
+      const handleClose = () => {
+        setOpen(false);
+      };
     //   const Fetchdata = ()=>{
     //     db.collection("post").get().then((querySnapshot) => {
             
@@ -149,7 +160,14 @@ const Timeline =()=> {
       
          <div className='post'style={{overflow:"auto"}} >
             <ul style={{listStyleType:"none"}}>
-          <li style={{textAlign:"center"}}>{post.data.about}<span style={{display:"flex",justifyContent:"flex-end",color:"red"}}><button onClick={()=>deletePost(post.id)}><Delete   /></button></span></li>
+          <li style={{textAlign:"center"}}>{post.data.about}<span style={{display:"flex",justifyContent:"flex-end",color:"red"}}>
+              <button onClick={handleClickOpen}><Delete   /></button></span></li>
+              <Dialog open={open} onClose={handleClose}>
+                  <DialogTitle>Are you sure want to delete?</DialogTitle>
+                  <div style={{display:"flex",alignItems:"center",justifyContent:"space-evenly"}}>
+                  <Button onClick={()=>deletePost(post.id+ + window.location.reload(false))} color="secondary" variant="contained">Yes</Button><Button onClick={()=>  window.location.reload(false)} color="primary" variant='contained'>No</Button>
+                  </div>
+              </Dialog>
           <li><img src={post.data.imgurl} height="400px" width="500px"  alt="" /></li>
           <li style={{textAlign:"center",justifyContent:"space-evenly"}}><span>{post.data.date}</span> &nbsp;&nbsp;&nbsp; <span>{post.data.time}</span> &nbsp;&nbsp;&nbsp;    <span>{post.data.location}</span> &nbsp;    </li>
           
